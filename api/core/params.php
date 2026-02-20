@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -24,15 +25,17 @@ global $params;
 function params_get($p, $def = false)
 {
     global $params;
-    
-    # Get them all
-    if ($p === false)
-        return $params;
 
-    if (isset($params[$p]) && trim($params[$p]) != '')
+    // Get them all
+    if ($p === false) {
+        return $params;
+    }
+
+    if (isset($params[$p]) && trim($params[$p]) != '') {
         return $params[$p];
-    else
+    } else {
         return $def;
+    }
 }
 
 /**
@@ -46,8 +49,9 @@ function params_set($p, $val = false, $override = false)
         foreach ($val as $vv => $v) {
             _params_set($vv, $v, $override);
         }
-    } else
+    } else {
         _params_set($p, $val, $override);
+    }
 
     return $params[$p];
 }
@@ -59,30 +63,31 @@ function _params_set($p, $val = false, $override = false)
 {
     global $params;
 
-    if (isset($params[$p]) && $override)
+    if (isset($params[$p]) && $override) {
         $params[$p] = $val;
-    else
+    } else {
         $params[$p] = $val;
+    }
 
     return $params[$p];
 }
 
 /**
  * Verify request and set default values when required
+ *
  * @todo Verify possible options for each a|b|c etc...
  */
 function params_verifyRequest($keys)
 {
     foreach ($keys as $key) {
-        if (params_get($key["key"], '') === '') {
-            $msg = "Falta el parametro requerido: " . $key["key"];
+        if (params_get($key['key'], '') === '') {
+            $msg = 'Falta el parametro requerido: '.$key['key'];
             grace_debug($msg);
-            if ($key["req"])
+            if ($key['req']) {
                 tools_reply($msg, true);
-            else # Set the default value
-            {
-                grace_debug("Using default");
-                params_set($key["key"], $key["def"]);
+            } else { // Set the default value
+                grace_debug('Using default');
+                params_set($key['key'], $key['def']);
             }
         }
     }
@@ -93,64 +98,66 @@ function params_verifyRequest($keys)
  */
 function params_cliLoadOpts($allParams)
 {
-    grace_debug("Loading in CLI mode");
+    grace_debug('Loading in CLI mode');
 
-    echo "loading";
+    echo 'loading';
 
-    # Load the params
-    //$params = core_init();
+    // Load the params
+    // $params = core_init();
 
-    # The actual params to be considered
-    $params = array();
+    // The actual params to be considered
+    $params = [];
 
-    $opts = "";
-    $longOpts = array();
+    $opts = '';
+    $longOpts = [];
 
-    # Extract only the params
+    // Extract only the params
     foreach ($allParams as $param) {
-        if (isset($param['params']))
+        if (isset($param['params'])) {
             $params[] = $param['params'];
+        }
     }
 
-    # For some reason they are stored in pos 0 of the array
+    // For some reason they are stored in pos 0 of the array
     $params = $params[0];
 
     print_r($params);
     foreach ($params as $p) {
         $longOpt = $p['key'];
         $opts .= $p['cli'];
-        # Is it mandatory?
+        // Is it mandatory?
         if ($p['req']) {
-            $opts .= ":";
-            $longOpt .= ":";
+            $opts .= ':';
+            $longOpt .= ':';
         } else {
-            $opts .= "::";
-            $longOpt .= "::";
+            $opts .= '::';
+            $longOpt .= '::';
         }
 
         $longOpts[] = $longOpt;
     }
 
-    grace_debug("Opts requested: " . $opts);
+    grace_debug('Opts requested: '.$opts);
 
-    # I need the basics in order to start
+    // I need the basics in order to start
     $args = getopt($opts, $longOpts);
 
-    # Now, lets extract them :)
+    // Now, lets extract them :)
     foreach ($params as $p) {
-        # Was it sent as longOpt?
-        if (isset($args[$p['key']]))
+        // Was it sent as longOpt?
+        if (isset($args[$p['key']])) {
             params_set($p['key'], $args[$p['key']]);
-        else if (isset($args[$p['cli']]))
+        } elseif (isset($args[$p['cli']])) {
             params_set($p['key'], $args[$p['cli']]);
-        else if ($p['req'] == false) # If it is optional, I will load the default value?
+        } elseif ($p['req'] == false) { // If it is optional, I will load the default value?
             params_set($p['key'], $p['def']);
+        }
     }
 
-    //print_r(params_get(false));
+    // print_r(params_get(false));
     params_verifyRequest($params);
-    //if ($args[''] == 8)
-    //var_dump($args);
+    // if ($args[''] == 8)
+    // var_dump($args);
 }
 
 /**

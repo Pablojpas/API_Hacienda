@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -27,22 +28,22 @@ function callback_bootMeUp()
 /**
  * Init function
  */
- function callback_init()
- {
-    $paths = array(
-        array(
-            'r'         => 'callback',
-            'action'    => 'api_callback',
-            'access'    => 'users_openAccess',
-            'file'      => 'callBack.php'
-        )
-    );
+function callback_init()
+{
+    $paths = [
+        [
+            'r' => 'callback',
+            'action' => 'api_callback',
+            'access' => 'users_openAccess',
+            'file' => 'callBack.php',
+        ],
+    ];
 
     return $paths;
 }
 
 /* * *********************************************** */
-//In the access you can use users_openAccess if you want anyone can use the function
+// In the access you can use users_openAccess if you want anyone can use the function
 // or users_loggedIn if the user must be logged in
 /* * *********************************************** */
 
@@ -51,19 +52,19 @@ function callback_bootMeUp()
  */
 function MODULENAME_access()
 {
-    $perms = array(
-        array(
-            # A human readable name
-            'name'          => 'Do something with this module',
-            # Something to remember what it is for
-            'description'   => 'What can be achieved with this permission',
-            # Internal machine name, no spaces, no funny symbols, same rules as a variable
-            # Use yourmodule_ prefix
-            'code'          => 'mymodule_access_one',
-            # Default value in case it is not set
-            'def'           => false, //Or true, you decide
-        ),
-    );
+    $perms = [
+        [
+            // A human readable name
+            'name' => 'Do something with this module',
+            // Something to remember what it is for
+            'description' => 'What can be achieved with this permission',
+            // Internal machine name, no spaces, no funny symbols, same rules as a variable
+            // Use yourmodule_ prefix
+            'code' => 'mymodule_access_one',
+            // Default value in case it is not set
+            'def' => false, // Or true, you decide
+        ],
+    ];
 }
 
 /**@}*/

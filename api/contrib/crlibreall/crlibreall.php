@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -18,13 +19,9 @@
 
 function allFE()
 {
-    modules_loader("clave");
+    modules_loader('clave');
 }
 
-function allNC()
-{
-}
+function allNC() {}
 
-function allND()
-{
-}
+function allND() {}

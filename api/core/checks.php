@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -16,30 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
- function CheckPHPVersion()
- {
-     if (!version_compare(PHP_VERSION, '5.5', '>='))
-        die("Requieres la version PHP 5.5 o superior.");
- }
+function CheckPHPVersion()
+{
+    if (! version_compare(PHP_VERSION, '5.5', '>=')) {
+        exit('Requieres la version PHP 5.5 o superior.');
+    }
+}
 
- function CheckPHPExtensions()
- {
-     $extReq = array('curl', 'xml', 'openssl', 'mysqli');
-     $extInstalled = get_loaded_extensions();
-     $errors = array();
+function CheckPHPExtensions()
+{
+    $extReq = ['curl', 'xml', 'openssl', 'mysqli'];
+    $extInstalled = get_loaded_extensions();
+    $errors = [];
 
-     foreach ($extReq as $ext)
-     {
-         if (!in_array($ext, $extInstalled))
+    foreach ($extReq as $ext) {
+        if (! in_array($ext, $extInstalled)) {
             $errors[] = $ext;
-     }
+        }
+    }
 
-     if (count($errors) > 0)
-        die("Necesitas instalar las siguientes extensiones PHP: ". join(", ", $errors));
- }
+    if (count($errors) > 0) {
+        exit('Necesitas instalar las siguientes extensiones PHP: '.implode(', ', $errors));
+    }
+}
 
- //
- CheckPHPVersion();
- CheckPHPExtensions();
-
-?>
+//
+CheckPHPVersion();
+CheckPHPExtensions();

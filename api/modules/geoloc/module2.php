@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -16,16 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# I will turn this into a class
+// I will turn this into a class
 
-# http://dev.maxmind.com/geoip/geoip2/geolite2/
-//echo "Hello";
-//echo "Loading the file";
+// http://dev.maxmind.com/geoip/geoip2/geolite2/
+// echo "Hello";
+// echo "Loading the file";
 
-# The databases
+// The databases
 global $geoloc_dbs;
 
-//$geoloc_currentLocation = '/home/lasangha/public_html/subDomainZ/geoloc/';
+// $geoloc_currentLocation = '/home/lasangha/public_html/subDomainZ/geoloc/';
 $geoloc_currentLocation = dirname(__FILE__);
 
 geoloc_initMe($geoloc_currentLocation);
@@ -34,20 +35,20 @@ function geoloc_initMe($path)
 {
     global $geoloc_dbs;
 
-    $geoloc_dbs['dbB'] = new SQLite3($path . 'blocks.sqlite');
-    $geoloc_dbs['dbL'] = new SQLite3($path . 'locations.sqlite');
+    $geoloc_dbs['dbB'] = new SQLite3($path.'blocks.sqlite');
+    $geoloc_dbs['dbL'] = new SQLite3($path.'locations.sqlite');
 
 }
 
-# Uncomment this in order to create the databases
-//createTables();
+// Uncomment this in order to create the databases
+// createTables();
 
-# Uncomment this in order to load each database DON'T DO THIS FROM WEB, IT WILL TAKE A WHILE!!!
-//geoloc_loadBlocks();
-//geoloc_loadLocations();
+// Uncomment this in order to load each database DON'T DO THIS FROM WEB, IT WILL TAKE A WHILE!!!
+// geoloc_loadBlocks();
+// geoloc_loadLocations();
 
 // This is just for testing, you probably will never use it
-//geoloc_getMeVisitorDetails();
+// geoloc_getMeVisitorDetails();
 
 function geoloc_createTables()
 {
@@ -68,47 +69,41 @@ function geoloc_loadLocations()
 
     echo "Loading locations \n";
 
-    $fileCities = file("./GeoLiteCity-Location.csv");
+    $fileCities = file('./GeoLiteCity-Location.csv');
 
     $c = 0;
     $cc = 0;
-    foreach ($fileCities as $f)
-    {
-        # Skip first two
-        if ($cc > 1)
-        {
-            # Fix missing values
-            $ff = explode(",", $f);
-            for ($a = 0; $a < 9; $a++)
-            {
-                if (!isset($ff[$a]) || $ff[$a] == NULL || $ff[$a] == "\n")
-                {
-                    //echo "missing!$a"; //	= 0;
+    foreach ($fileCities as $f) {
+        // Skip first two
+        if ($cc > 1) {
+            // Fix missing values
+            $ff = explode(',', $f);
+            for ($a = 0; $a < 9; $a++) {
+                if (! isset($ff[$a]) || $ff[$a] == null || $ff[$a] == "\n") {
+                    // echo "missing!$a"; //	= 0;
                     $ff[$a] = 0;
                 }
             }
 
-            $f = implode(",", $ff);
+            $f = implode(',', $ff);
 
-            if ($c == 0)
-            {
-                $q = "insert into locations (locId,country,region,city,postalCode,latitude,longitude,metroCode,areaCode) VALUES ";
-                $q2 = array();
+            if ($c == 0) {
+                $q = 'insert into locations (locId,country,region,city,postalCode,latitude,longitude,metroCode,areaCode) VALUES ';
+                $q2 = [];
             }
 
-            echo "+";
-            $q2[] = "(" . trim($f, "\n") . ")";
+            echo '+';
+            $q2[] = '('.trim($f, "\n").')';
 
             $c++;
-            if ($c == 500)
-            {
-                $query = $q . implode(",", $q2) . ";";
+            if ($c == 500) {
+                $query = $q.implode(',', $q2).';';
                 echo "\n.-";
                 $geoloc_dbs['dbL']->exec($query);
                 $c = 0;
                 echo $cc;
             }
- 
+
         }
 
         $cc++;
@@ -120,27 +115,24 @@ function geoloc_loadBlocks()
 {
     global $geoloc_dbs;
 
-    $fileCities = file("./GeoLiteCity-Blocks.csv");
+    $fileCities = file('./GeoLiteCity-Blocks.csv');
 
     $c = 0;
     $cc = 0;
-    foreach ($fileCities as $f)
-    {
-        if ($c == 0)
-        {
-            $q = "insert into blocks (startIpNum, endIpNum, locId) VALUES "; //" . trim($f, "\n") . ");";
-            $q2 = array();
+    foreach ($fileCities as $f) {
+        if ($c == 0) {
+            $q = 'insert into blocks (startIpNum, endIpNum, locId) VALUES '; // " . trim($f, "\n") . ");";
+            $q2 = [];
         }
 
-        echo "+";
-        $q2[] = "(" . trim($f, "\n") . ")";
+        echo '+';
+        $q2[] = '('.trim($f, "\n").')';
 
         $c++;
         $cc++;
-        if ($c == 500)
-        {
-            $query = $q . implode(",", $q2) . ";";
-            echo ".-";
+        if ($c == 500) {
+            $query = $q.implode(',', $q2).';';
+            echo '.-';
             $geoloc_dbs['db']->exec($query);
             $c = 0;
             echo $cc;
@@ -151,20 +143,19 @@ function geoloc_loadBlocks()
 }
 
 // Temp for random generation of locations
-function geoloc_getMeVisitorDetails($ipAddress = "")
+function geoloc_getMeVisitorDetails($ipAddress = '')
 {
     global $geoloc_dbs;
 
     $blocks['locId'] = rand(0, 1000);
 
-    if ($blocks)
-    {
-        $q = sprintf("
+    if ($blocks) {
+        $q = sprintf('
             SELECT *
             FROM `locations`
             WHERE locId = %s
-            ", $blocks['locId']);
-    
+            ', $blocks['locId']);
+
         $stmt = $geoloc_dbs['dbL']->prepare($q);
         $result = $stmt->execute();
         $details = $result->fetchArray();
@@ -173,47 +164,48 @@ function geoloc_getMeVisitorDetails($ipAddress = "")
     return $details;
 }
 
-function _geoloc_getMeVisitorDetails($ipAddress = "")
+function _geoloc_getMeVisitorDetails($ipAddress = '')
 {
     global $geoloc_dbs;
 
-    # I will use the address of the current visitor if nothing is provided
-    if ($ipAddress == "")
+    // I will use the address of the current visitor if nothing is provided
+    if ($ipAddress == '') {
         $ipAddress = $_SERVER['REMOTE_ADDR'];
+    }
 
-    $ipParts = explode(".", $ipAddress);
+    $ipParts = explode('.', $ipAddress);
 
     $integerIp = (16777216 * $ipParts[0])
-        + (    65536 * $ipParts[1])
-        + (      256 * $ipParts[2])
-        +              $ipParts[3];
+        + (65536 * $ipParts[1])
+        + (256 * $ipParts[2])
+        + $ipParts[3];
 
-    # Get the block
+    // Get the block
 
-    # Add all the details in blank
-    # @todo add them all in blank
-    $details = array();
+    // Add all the details in blank
+    // @todo add them all in blank
+    $details = [];
 
     // From  http://dev.maxmind.com/geoip/legacy/geolite/
-    $q = sprintf("
+    $q = sprintf('
         SELECT b.locId
         FROM `blocks` b
         WHERE startIpNum <= %s 
         AND endIpNum >= %s
-        ", $integerIp, $integerIp);
+        ', $integerIp, $integerIp);
 
     $stmt = $geoloc_dbs['dbB']->prepare($q);
 
     $result = $stmt->execute();
     $blocks = $result->fetchArray();
 
-    if ($blocks){
-        $q = sprintf("
+    if ($blocks) {
+        $q = sprintf('
             SELECT *
             FROM `locations`
             WHERE locId = %s
-            ", $blocks['locId']);
-    
+            ', $blocks['locId']);
+
         $stmt = $geoloc_dbs['dbL']->prepare($q);
         $result = $stmt->execute();
         $details = $result->fetchArray();

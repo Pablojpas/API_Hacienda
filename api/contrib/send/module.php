@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -29,71 +30,70 @@ function send_bootMeUp()
  */
 function send_init()
 {
-    $paths = array(
-        array(
-            'r'             => 'json',
-            'action'        => 'send',
-            'access'        => 'users_openAccess',
+    $paths = [
+        [
+            'r' => 'json',
+            'action' => 'send',
+            'access' => 'users_openAccess',
             'access_params' => 'accessName',
-            'params'        => array(
-                array("key" => "token",                     "def" => "",    "req" => true),
-                array("key" => "clave",                     "def" => "",    "req" => true),
-                array("key" => "fecha",                     "def" => "",    "req" => true),
-                array("key" => "emi_tipoIdentificacion",    "def" => "",    "req" => true),
-                array("key" => "emi_numeroIdentificacion",  "def" => "",    "req" => true),
-                array("key" => "recp_tipoIdentificacion",   "def" => "",    "req" => false),
-                array("key" => "recp_numeroIdentificacion", "def" => "",    "req" => false),
-                array("key" => "comprobanteXml",            "def" => "",    "req" => true),
-                array("key" => "callbackUrl",               "def" => "",    "req" => false),
-                array("key" => "client_id",                 "def" => "",    "req" => true)
-            ),
-            'file'          => 'send.php'
-        ),
-        array(
-            'r'             => 'sendMensaje',
-            'action'        => 'sendMensaje',
-            'access'        => 'users_openAccess',
+            'params' => [
+                ['key' => 'token',                     'def' => '',    'req' => true],
+                ['key' => 'clave',                     'def' => '',    'req' => true],
+                ['key' => 'fecha',                     'def' => '',    'req' => true],
+                ['key' => 'emi_tipoIdentificacion',    'def' => '',    'req' => true],
+                ['key' => 'emi_numeroIdentificacion',  'def' => '',    'req' => true],
+                ['key' => 'recp_tipoIdentificacion',   'def' => '',    'req' => false],
+                ['key' => 'recp_numeroIdentificacion', 'def' => '',    'req' => false],
+                ['key' => 'comprobanteXml',            'def' => '',    'req' => true],
+                ['key' => 'callbackUrl',               'def' => '',    'req' => false],
+                ['key' => 'client_id',                 'def' => '',    'req' => true],
+            ],
+            'file' => 'send.php',
+        ],
+        [
+            'r' => 'sendMensaje',
+            'action' => 'sendMensaje',
+            'access' => 'users_openAccess',
             'access_params' => 'accessName',
-            'params'        => array(
-                array("key" => "token",                     "def" => "",    "req" => true),
-                array("key" => "clave",                     "def" => "",    "req" => true),
-                array("key" => "fecha",                     "def" => "",    "req" => true),
-                array("key" => "emi_tipoIdentificacion",    "def" => "",    "req" => true),
-                array("key" => "emi_numeroIdentificacion",  "def" => "",    "req" => true),
-                array("key" => "recp_tipoIdentificacion",   "def" => "",    "req" => true),
-                array("key" => "recp_numeroIdentificacion", "def" => "",    "req" => true),
-                array("key" => "consecutivoReceptor",       "def" => "",    "req" => true),
-                array("key" => "comprobanteXml",            "def" => "",    "req" => true),
-                array("key" => "callbackUrl",               "def" => "",    "req" => false),
-                array("key" => "client_id",                 "def" => "",    "req" => true)
-            ),
-            'file'          => 'send.php'
-        ),
-        array(
-            'r'             => 'sendTE',
-            'action'        => 'sendTE',
-            'access'        => 'users_openAccess',
+            'params' => [
+                ['key' => 'token',                     'def' => '',    'req' => true],
+                ['key' => 'clave',                     'def' => '',    'req' => true],
+                ['key' => 'fecha',                     'def' => '',    'req' => true],
+                ['key' => 'emi_tipoIdentificacion',    'def' => '',    'req' => true],
+                ['key' => 'emi_numeroIdentificacion',  'def' => '',    'req' => true],
+                ['key' => 'recp_tipoIdentificacion',   'def' => '',    'req' => true],
+                ['key' => 'recp_numeroIdentificacion', 'def' => '',    'req' => true],
+                ['key' => 'consecutivoReceptor',       'def' => '',    'req' => true],
+                ['key' => 'comprobanteXml',            'def' => '',    'req' => true],
+                ['key' => 'callbackUrl',               'def' => '',    'req' => false],
+                ['key' => 'client_id',                 'def' => '',    'req' => true],
+            ],
+            'file' => 'send.php',
+        ],
+        [
+            'r' => 'sendTE',
+            'action' => 'sendTE',
+            'access' => 'users_openAccess',
             'access_params' => 'accessName',
-            'params'        => array(
-                array("key" => "token",                     "def" => "", "req" => true),
-                array("key" => "clave",                     "def" => "", "req" => true),
-                array("key" => "fecha",                     "def" => "", "req" => true),
-                array("key" => "emi_tipoIdentificacion",    "def" => "", "req" => true),
-                array("key" => "emi_numeroIdentificacion",  "def" => "", "req" => true),
-                array("key" => "comprobanteXml",            "def" => "", "req" => true),
-                array("key" => "callbackUrl",               "def" => "", "req" => false),
-                array("key" => "client_id",                 "def" => "", "req" => true)
-            ),
-            'file'          => 'send.php'
-        )
-    );
-
+            'params' => [
+                ['key' => 'token',                     'def' => '', 'req' => true],
+                ['key' => 'clave',                     'def' => '', 'req' => true],
+                ['key' => 'fecha',                     'def' => '', 'req' => true],
+                ['key' => 'emi_tipoIdentificacion',    'def' => '', 'req' => true],
+                ['key' => 'emi_numeroIdentificacion',  'def' => '', 'req' => true],
+                ['key' => 'comprobanteXml',            'def' => '', 'req' => true],
+                ['key' => 'callbackUrl',               'def' => '', 'req' => false],
+                ['key' => 'client_id',                 'def' => '', 'req' => true],
+            ],
+            'file' => 'send.php',
+        ],
+    ];
 
     return $paths;
 }
 
 /* * *********************************************** */
-//In the access you can use users_openAccess if you want anyone can use the function
+// In the access you can use users_openAccess if you want anyone can use the function
 // or users_loggedIn if the user must be logged in
 /* * *********************************************** */
 
@@ -102,19 +102,19 @@ function send_init()
  */
 function MODULENAME_access()
 {
-    $perms = array(
-        array(
-            # A human readable name
-            'name'          => 'Do something with this module',
-            # Something to remember what it is for
-            'description'   => 'What can be achieved with this permission',
-            # Internal machine name, no spaces, no funny symbols, same rules as a variable
-            # Use yourmodule_ prefix
-            'code'          => 'mymodule_access_one',
-            # Default value in case it is not set
-            'def'           => false, //Or true, you decide
-        ),
-    );
+    $perms = [
+        [
+            // A human readable name
+            'name' => 'Do something with this module',
+            // Something to remember what it is for
+            'description' => 'What can be achieved with this permission',
+            // Internal machine name, no spaces, no funny symbols, same rules as a variable
+            // Use yourmodule_ prefix
+            'code' => 'mymodule_access_one',
+            // Default value in case it is not set
+            'def' => false, // Or true, you decide
+        ],
+    ];
 }
 
 /**@}*/

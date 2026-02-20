@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -20,34 +21,31 @@ function wirez_messagesGetRecent()
 {
     global $user;
 
-    grace_debug("Getting new/latest messages for someone");
+    grace_debug('Getting new/latest messages for someone');
 
-    # I will hold all the messages
-    $allMsgs = array();
+    // I will hold all the messages
+    $allMsgs = [];
 
-    # @todo Check that the user can see the message!!!!
-    # With someone in specific?
-    if (params_get('withWire', '') != '')
-    {
+    // @todo Check that the user can see the message!!!!
+    // With someone in specific?
+    if (params_get('withWire', '') != '') {
         $recipient = users_loadByWire(users_createWireAddress(params_get('withWire', '')));
 
-        $where = sprintf("WHERE (mm.idSender = %s AND mm.idRecipient = %s)
-            OR (mm.idSender = %s AND mm.idRecipient = %s)",
-                db_escape($recipient->idUser),
-                db_escape($user->idUser),
-                db_escape($user->idUser),
-                db_escape($recipient->idUser)
-            );
-    }
-    else
-    {
-        $where = sprintf("WHERE (mm.idSender = %s
-            OR mm.idRecipient = %s)", db_escape($user->idUser), db_escape($user->idUser)
+        $where = sprintf('WHERE (mm.idSender = %s AND mm.idRecipient = %s)
+            OR (mm.idSender = %s AND mm.idRecipient = %s)',
+            db_escape($recipient->idUser),
+            db_escape($user->idUser),
+            db_escape($user->idUser),
+            db_escape($recipient->idUser)
+        );
+    } else {
+        $where = sprintf('WHERE (mm.idSender = %s
+            OR mm.idRecipient = %s)', db_escape($user->idUser), db_escape($user->idUser)
         );
     }
 
-    # I will get the conversation information if the user is either the sender, or the reciever
-    $q = sprintf("
+    // I will get the conversation information if the user is either the sender, or the reciever
+    $q = sprintf('
         SELECT m.*,
         c.subject,
         u.fullName as senderName, u.userName AS senderWire, u.avatar as senderAvatar,
@@ -65,7 +63,7 @@ function wirez_messagesGetRecent()
         ) m2
         ON m.idMsg = m2.idMsg
         ORDER BY m.idMsg DESC
-        LIMIT %s, %s",
+        LIMIT %s, %s',
         $where,
         db_escape(params_get('lastMessageId', 0)),
         db_escape(params_get('ini', 0)),
@@ -74,17 +72,17 @@ function wirez_messagesGetRecent()
 
     $allMsgs = db_query($q, 2);
 
-    # If conversation > 0 and there is a recipient
-    # If there are no messages
-    if ($allMsgs == ERROR_DB_NO_RESULTS_FOUND)
+    // If conversation > 0 and there is a recipient
+    // If there are no messages
+    if ($allMsgs == ERROR_DB_NO_RESULTS_FOUND) {
         return ERROR_DB_NO_RESULTS_FOUND;
+    }
 
-    $allMessages = array();
+    $allMessages = [];
 
-    # Prepare all messages
-    # @todo This could be a function
-    for ($i = 0; $i < count($allMsgs); $i++)
-    {
+    // Prepare all messages
+    // @todo This could be a function
+    for ($i = 0; $i < count($allMsgs); $i++) {
         $allMsgs[$i]->text = stripcslashes($allMsgs[$i]->text);
     }
 
@@ -94,4 +92,3 @@ function wirez_messagesGetRecent()
 
     return $allMessages;
 }
-

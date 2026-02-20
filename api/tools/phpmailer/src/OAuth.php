@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPMailer - PHP email creation and transport class.
  * PHP Version 5.5.
@@ -13,6 +14,7 @@
  * @copyright 2010 - 2012 Jim Jagielski
  * @copyright 2004 - 2009 Andy Prevost
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful - WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.
@@ -80,8 +82,8 @@ class OAuth
     /**
      * OAuth constructor.
      *
-     * @param array $options Associative array containing
-     *                       `provider`, `userName`, `clientSecret`, `clientId` and `refreshToken` elements
+     * @param  array  $options  Associative array containing
+     *                          `provider`, `userName`, `clientSecret`, `clientId` and `refreshToken` elements
      */
     public function __construct($options)
     {
@@ -99,7 +101,7 @@ class OAuth
      */
     protected function getGrant()
     {
-        return new RefreshToken();
+        return new RefreshToken;
     }
 
     /**
@@ -123,15 +125,15 @@ class OAuth
     public function getOauth64()
     {
         // Get a new token if it's not available or has expired
-        if (null === $this->oauthToken or $this->oauthToken->hasExpired()) {
+        if ($this->oauthToken === null or $this->oauthToken->hasExpired()) {
             $this->oauthToken = $this->getToken();
         }
 
         return base64_encode(
-            'user=' .
-            $this->oauthUserEmail .
-            "\001auth=Bearer " .
-            $this->oauthToken .
+            'user='.
+            $this->oauthUserEmail.
+            "\001auth=Bearer ".
+            $this->oauthToken.
             "\001\001"
         );
     }

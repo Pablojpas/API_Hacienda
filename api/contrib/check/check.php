@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -21,8 +22,7 @@ function check_XML()
     function libxml_display_error($error)
     {
         $return = "<br/>\n";
-        switch ($error->level)
-        {
+        switch ($error->level) {
             case LIBXML_ERR_WARNING:
                 $return .= "<b>Warning $error->code</b>: ";
                 break;
@@ -51,67 +51,63 @@ function check_XML()
     {
         $errors = libxml_get_errors();
 
-        foreach ($errors as $error)
-        {
-            print libxml_display_error($error);
+        foreach ($errors as $error) {
+            echo libxml_display_error($error);
         }
 
         libxml_clear_errors();
     }
 
     $tipoDoc = params_get('tipoDocumento');
-    $tipos = array("FE", "ND", "NC", "TE", "CCE", "CPCE", "RCE","FEC, FEE");
+    $tipos = ['FE', 'ND', 'NC', 'TE', 'CCE', 'CPCE', 'RCE', 'FEC, FEE'];
 
     grace_debug($tipoDoc);
-    if (in_array($tipoDoc, $tipos))
-    {
-        switch ($tipoDoc)
-        {
-            case 'FE': //Factura Electronica
-            {
+    if (in_array($tipoDoc, $tipos)) {
+        switch ($tipoDoc) {
+            case 'FE': // Factura Electronica
+
                 // Enable user error handling
                 libxml_use_internal_errors(true);
 
-                $xml = new DOMDocument();
+                $xml = new DOMDocument;
                 $xml->load('fac.xml');
 
-                if (!$xml->schemaValidate('xsd/FacturaElectronica_V.4.2.xsd'))
+                if (! $xml->schemaValidate('xsd/FacturaElectronica_V.4.2.xsd')) {
                     libxml_display_errors();
-                else
-                    echo "validated";
+                } else {
+                    echo 'validated';
+                }
 
                 break;
-            }
+
             case 'ND': // Nota de Debito
-                $tipoDocumento = "02";
+                $tipoDocumento = '02';
                 break;
             case 'NC': // Nota de Credito
-                $tipoDocumento = "03";
+                $tipoDocumento = '03';
                 break;
             case 'TE': // Tiquete Electronico
-                $tipoDocumento = "04";
+                $tipoDocumento = '04';
                 break;
             case 'CCE': // Confirmacion Comprabante Electronico
-                $tipoDocumento = "05";
+                $tipoDocumento = '05';
                 break;
             case 'CPCE': // Confirmacion Parcial Comprbante Electronico
-                $tipoDocumento = "06";
+                $tipoDocumento = '06';
                 break;
             case 'RCE': // Rechazo Comprobante Electronico
-                $tipoDocumento = "07";
+                $tipoDocumento = '07';
                 break;
             case 'FEC': // Factura Electronica de Compra
-                $tipoDocumento = "08";
+                $tipoDocumento = '08';
                 break;
             case 'FEE': // Factura Electronica de Exportación
-                $tipoDocumento = "09";
+                $tipoDocumento = '09';
                 break;
             default:
                 break;
         }
+    } else {
+        return 'No se encuentra tipo de documento';
     }
-    else
-        return "No se encuentra tipo de documento";
 }
-
-?>

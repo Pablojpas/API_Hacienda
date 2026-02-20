@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2018 CRLibre <https://crlibre.org>
  *
@@ -16,5 +17,5 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# Where do you want the databases to be located? Use trailing slash
-$config['geoloc']['dbLocation'] = dirname(__FILE__) . "/";
+// Where do you want the databases to be located? Use trailing slash
+$config['geoloc']['dbLocation'] = dirname(__FILE__).'/';

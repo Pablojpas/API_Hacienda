@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -21,15 +22,15 @@
  * A more elaborated file description.
  */
 
-/** \addtogroup Core 
+/** \addtogroup Core
  *  @{
  */
 
 /**
  * \defgroup Module
+ *
  * @{
  */
-
 
 /**
  * Boot up procedure
@@ -44,29 +45,26 @@ function MODULENAME_bootMeUp()
  */
 function MODULE_NAME_init()
 {
-    $paths = array(
-        array(
-            'r'             => '',
-            'action'        => '',
-            'access'        => 'users_openAccess', 
+    $paths = [
+        [
+            'r' => '',
+            'action' => '',
+            'access' => 'users_openAccess',
             'access_params' => 'accessName',
-            'params'        => array(
-                array("key" => "", "def" => "", "req" => true)
-            ),
-            'file'          => 'file.php'
-        )
-    );
+            'params' => [
+                ['key' => '', 'def' => '', 'req' => true],
+            ],
+            'file' => 'file.php',
+        ],
+    ];
 
     return $paths;
 }
 
-
 /**************************************************/
-//In the access you can use users_openAccess if you want anyone can use the function
+// In the access you can use users_openAccess if you want anyone can use the function
 // or users_loggedIn if the user must be logged in
 /**************************************************/
-
-
 
 /**
  * Get the perms for this module
@@ -74,19 +72,19 @@ function MODULE_NAME_init()
 function MODULENAME_access()
 {
 
-    $perms = array(
-        array(
-            # A human readable name
-            'name'        => 'Do something with this module',
-            # Something to remember what it is for
+    $perms = [
+        [
+            // A human readable name
+            'name' => 'Do something with this module',
+            // Something to remember what it is for
             'description' => 'What can be achieved with this permission',
-            # Internal machine name, no spaces, no funny symbols, same rules as a variable
-            # Use yourmodule_ prefix
-            'code'        => 'mymodule_access_one',
-            # Default value in case it is not set
-            'def'         => false, //Or true, you decide
-        ),
-    );
+            // Internal machine name, no spaces, no funny symbols, same rules as a variable
+            // Use yourmodule_ prefix
+            'code' => 'mymodule_access_one',
+            // Default value in case it is not set
+            'def' => false, // Or true, you decide
+        ],
+    ];
 }
 
 /**@}*/

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * xmlseclibs.php
  *
@@ -37,11 +38,11 @@
  * @author    Robert Richards <rrichards@cdatazone.org>
  * @copyright 2007-2019 Robert Richards <rrichards@cdatazone.org>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ *
  * @version   3.0.4-dev
  */
-
-$xmlseclibs_srcdir = dirname(__FILE__) . '/src/';
-require $xmlseclibs_srcdir . '/XMLSecurityKey.php';
-require $xmlseclibs_srcdir . '/XMLSecurityDSig.php';
-require $xmlseclibs_srcdir . '/XMLSecEnc.php';
-require $xmlseclibs_srcdir . '/Utils/XPath.php';
+$xmlseclibs_srcdir = dirname(__FILE__).'/src/';
+require $xmlseclibs_srcdir.'/XMLSecurityKey.php';
+require $xmlseclibs_srcdir.'/XMLSecurityDSig.php';
+require $xmlseclibs_srcdir.'/XMLSecEnc.php';
+require $xmlseclibs_srcdir.'/Utils/XPath.php';

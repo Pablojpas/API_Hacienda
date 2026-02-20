@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -27,67 +28,64 @@ function token_bootMeUp()
 /**
  * Init function
  */
-
 function token_init()
 {
-    $paths = array(
-        array(
-            'r'             => 'gettoken',
-            'action'        => 'token',
-            'access'        => 'users_openAccess',
+    $paths = [
+        [
+            'r' => 'gettoken',
+            'action' => 'token',
+            'access' => 'users_openAccess',
             'access_params' => 'accessName',
-            'params' => array(
-                array("key" => "grant_type",        "def" => "", "req" => true),
-                array("key" => "client_id",         "def" => "", "req" => true),
-                array("key" => "client_secret",     "def" => "", "req" => false),
-                array("key" => "username",          "def" => "", "req" => true),
-                array("key" => "password",          "def" => "", "req" => true)
-            ),
-            'file'          => 'mhToken.php'
-        ),
-        array(
-            'r'             => 'refresh',
-            'action'        => 'token',
-            'access'        => 'users_openAccess',
+            'params' => [
+                ['key' => 'grant_type',        'def' => '', 'req' => true],
+                ['key' => 'client_id',         'def' => '', 'req' => true],
+                ['key' => 'client_secret',     'def' => '', 'req' => false],
+                ['key' => 'username',          'def' => '', 'req' => true],
+                ['key' => 'password',          'def' => '', 'req' => true],
+            ],
+            'file' => 'mhToken.php',
+        ],
+        [
+            'r' => 'refresh',
+            'action' => 'token',
+            'access' => 'users_openAccess',
             'access_params' => 'accessName',
-            'params'        => array(
-                array("key" => "grant_type",        "def" => "", "req" => true),
-                array("key" => "client_id",         "def" => "", "req" => true),
-                array("key" => "client_secret",     "def" => "", "req" => false),
-                array("key" => "refresh_token",     "def" => "", "req" => true)
-            ),
-            'file'          => 'mhToken.php'
-        )
-    );
+            'params' => [
+                ['key' => 'grant_type',        'def' => '', 'req' => true],
+                ['key' => 'client_id',         'def' => '', 'req' => true],
+                ['key' => 'client_secret',     'def' => '', 'req' => false],
+                ['key' => 'refresh_token',     'def' => '', 'req' => true],
+            ],
+            'file' => 'mhToken.php',
+        ],
+    ];
 
     return $paths;
 }
 
-
 /**************************************************/
-//In the access you can use users_openAccess if you want anyone can use the function
+// In the access you can use users_openAccess if you want anyone can use the function
 // or users_loggedIn if the user must be logged in
 /**************************************************/
-
 
 /**
  * Get the perms for this module
  */
 function MODULENAME_access()
 {
-    $perms = array(
-        array(
-            # A human readable name
-            'name'          => 'Do something with this module',
-            # Something to remember what it is for
-            'description'   => 'What can be achieved with this permission',
-            # Internal machine name, no spaces, no funny symbols, same rules as a variable
-            # Use yourmodule_ prefix
-            'code'          => 'mymodule_access_one',
-            # Default value in case it is not set
-            'def'           => false, //Or true, you decide
-        ),
-    );
+    $perms = [
+        [
+            // A human readable name
+            'name' => 'Do something with this module',
+            // Something to remember what it is for
+            'description' => 'What can be achieved with this permission',
+            // Internal machine name, no spaces, no funny symbols, same rules as a variable
+            // Use yourmodule_ prefix
+            'code' => 'mymodule_access_one',
+            // Default value in case it is not set
+            'def' => false, // Or true, you decide
+        ],
+    ];
 }
 
 /**@}*/

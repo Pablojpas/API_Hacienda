@@ -19,86 +19,76 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
- # TODOs:
- # - if no xmlIN and/or xmlOut arguments are given, read/write to STDIN/STDOUT.
+ // TODOs:
+ // - if no xmlIN and/or xmlOut arguments are given, read/write to STDIN/STDOUT.
 
- date_default_timezone_set("America/Costa_Rica");
+ date_default_timezone_set('America/Costa_Rica');
 
- include __DIR__.'/../contrib/signXML/Firmadohaciendacr.php';
+include __DIR__.'/../contrib/signXML/Firmadohaciendacr.php';
 
- $cert      = $argv[1];
- $pin       = $argv[2];
- $xmlIn     = $argv[3];
- $xmlOut    = $argv[4];
+$cert = $argv[1];
+$pin = $argv[2];
+$xmlIn = $argv[3];
+$xmlOut = $argv[4];
 
- if ($xmlIn == '-')
-    $xmlIn = "php://stdin";
+if ($xmlIn == '-') {
+    $xmlIn = 'php://stdin';
+}
 
- #$doctype = $argv[5];
+// $doctype = $argv[5];
 
- if (!file_exists($xmlIn))
- {
-    die("Infile '$xmlIn' doesn't exist\n");
- }
+if (! file_exists($xmlIn)) {
+    exit("Infile '$xmlIn' doesn't exist\n");
+}
 
- if (!$xmlOut)
- {
-    die("Need an outfile.");
- }
+if (! $xmlOut) {
+    exit('Need an outfile.');
+}
 
- $signer = new Firmadocr();
- fwrite(STDERR, "P12:\t" . $cert . "\n");
- # echo "PIN: " . $pin .  "\n";
- fwrite(STDERR, "In:\t" . $xmlIn . "\n");
- fwrite(STDERR, "Out:\t" . $xmlOut . "\n");
+$signer = new Firmadocr;
+fwrite(STDERR, "P12:\t".$cert."\n");
+// echo "PIN: " . $pin .  "\n";
+fwrite(STDERR, "In:\t".$xmlIn."\n");
+fwrite(STDERR, "Out:\t".$xmlOut."\n");
 
- $xmlIn = file_get_contents( $xmlIn );
+$xmlIn = file_get_contents($xmlIn);
 
- #if (preg_match('/\<FacturaElectronica\>/',$xmlIn))
- if (preg_match('/\<FacturaElectronica/', $xmlIn))
- {
+// if (preg_match('/\<FacturaElectronica\>/',$xmlIn))
+if (preg_match('/\<FacturaElectronica/', $xmlIn)) {
     $doctype = '01';
-    fwrite(STDERR,  "Tipo:\t($doctype) FE\n");
- }
- else if (preg_match('/\<NotaDebitoElectronica/', $xmlIn))
- {
+    fwrite(STDERR, "Tipo:\t($doctype) FE\n");
+} elseif (preg_match('/\<NotaDebitoElectronica/', $xmlIn)) {
     $doctype = '02';
-    fwrite(STDERR,  "Tipo:\t($doctype) ND\n");
- }
- else if (preg_match('/\<NotaCreditoElectronica/', $xmlIn))
- {
+    fwrite(STDERR, "Tipo:\t($doctype) ND\n");
+} elseif (preg_match('/\<NotaCreditoElectronica/', $xmlIn)) {
     $doctype = '03';
-    fwrite(STDERR,  "Tipo:\t($doctype) NC\n");
- }
- else if (preg_match('/\<TiqueteElectronico/', $xmlIn))
- {
-    $doctype = "04";
-    fwrite(STDERR,  "Tipo:\t($doctype) TE\n");
- }
- else if (preg_match('/\<MensajeReceptor/', $xmlIn))
- {
-    $doctype = "05";
-    fwrite(STDERR,  "Tipo:\t($doctype) MR\n");
- }
+    fwrite(STDERR, "Tipo:\t($doctype) NC\n");
+} elseif (preg_match('/\<TiqueteElectronico/', $xmlIn)) {
+    $doctype = '04';
+    fwrite(STDERR, "Tipo:\t($doctype) TE\n");
+} elseif (preg_match('/\<MensajeReceptor/', $xmlIn)) {
+    $doctype = '05';
+    fwrite(STDERR, "Tipo:\t($doctype) MR\n");
+}
 
- if ($doctype != '01' && $doctype != '02' && $doctype != '03' && $doctype != '04' && $doctype != '05')
- {
-    #die("Usage: cli-signer.php <archivo.p12> <claveP12> <xml_sin_firmar> <tipodoc>\n");
-    die("Usage: cli-signer.php <archivo.p12> <claveP12> <xml_sin_firma> <xml_con_firma>\n(xml_sin_firma y/o xml_con_firma puede ser '-' para STDIN o STDOUT, respetivamente)");
- }
+if ($doctype != '01' && $doctype != '02' && $doctype != '03' && $doctype != '04' && $doctype != '05') {
+    // die("Usage: cli-signer.php <archivo.p12> <claveP12> <xml_sin_firmar> <tipodoc>\n");
+    exit("Usage: cli-signer.php <archivo.p12> <claveP12> <xml_sin_firma> <xml_con_firma>\n(xml_sin_firma y/o xml_con_firma puede ser '-' para STDIN o STDOUT, respetivamente)");
+}
 
- #exit();
+// exit();
 
- $xmlIn = base64_encode($xmlIn);
+$xmlIn = base64_encode($xmlIn);
 
- $foo = $signer->firmar($cert, $pin, $xmlIn, $doctype);
- $foo = base64_decode($foo);
+$foo = $signer->firmar($cert, $pin, $xmlIn, $doctype);
+$foo = base64_decode($foo);
 
- #echo "\n\nOUT\n\n$foo\n";
+// echo "\n\nOUT\n\n$foo\n";
 
- if ($xmlOut == '-')
+if ($xmlOut == '-') {
     echo $foo;
- else
+} else {
     file_put_contents($xmlOut, $foo);
+}
 
 ?>

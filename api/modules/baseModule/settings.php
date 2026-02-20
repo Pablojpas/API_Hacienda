@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2018 CRLibre <https://crlibre.org>
  *
@@ -16,4 +17,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$config['moduleName']['varname'] = "varValue";
+$config['moduleName']['varname'] = 'varValue';

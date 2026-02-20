@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -19,22 +20,22 @@
 /** @ingroup Constants
  *  @{
  */
-# Details about how I am going to be running
-//! Print it all in grace
+// Details about how I am going to be running
+// ! Print it all in grace
 define('GRACE_PRINT_ALL', conf_get('print_all', 'debug'));
-//! Print absurd messages
+// ! Print absurd messages
 define('GRACE_PRINT_ABSURD', conf_get('print_absurd', 'debug'));
-//! Print debug messages
+// ! Print debug messages
 define('GRACE_PRINT_DEBUG', conf_get('print_debug', 'debug'));
-//! Print error messages
+// ! Print error messages
 define('GRACE_PRINT_ERROR', conf_get('print_error', 'debug'));
 
 /** @} */
 /** @ingroup GlobalVars
  *  @{
  */
-//! Debug messages stored in Grace
-$grace_logMsgs = array();
+// ! Debug messages stored in Grace
+$grace_logMsgs = [];
 global $grace_logMsgs;
 
 /** @} */
@@ -47,20 +48,21 @@ function _grace_talk($msg, $who = 'info')
 {
     global $grace_logMsgs;
 
-    if (GRACE_PRINT_ALL)
-    {
-        # Format the message
-        $msg = sprintf("[%s] %s @ %s", $who, date('y-m-d h:m:s', time()), $msg) . "\n";
-        //echo "$msg" . ($who == 'a' ? "" : "\n" . "<br />");
-        if (!file_exists(conf_get('coreInstall', 'modules') . "errors/"))
-            mkdir(conf_get('coreInstall', 'modules') . "errors/", 0777, true);
+    if (GRACE_PRINT_ALL) {
+        // Format the message
+        $msg = sprintf('[%s] %s @ %s', $who, date('y-m-d h:m:s', time()), $msg)."\n";
+        // echo "$msg" . ($who == 'a' ? "" : "\n" . "<br />");
+        if (! file_exists(conf_get('coreInstall', 'modules').'errors/')) {
+            mkdir(conf_get('coreInstall', 'modules').'errors/', 0777, true);
+        }
 
-        #error_log($msg, 3, conf_get('coreInstall', 'modules') . "errors/" . date('y_m_d_h', time()) . "_errors.log");
-        #error_log($msg, 3, conf_get('coreInstall', 'modules') . "errors/" . "_errors.log");
+        // error_log($msg, 3, conf_get('coreInstall', 'modules') . "errors/" . date('y_m_d_h', time()) . "_errors.log");
+        // error_log($msg, 3, conf_get('coreInstall', 'modules') . "errors/" . "_errors.log");
         error_log($msg);
-        # Add the message to the debug pool if you want me to store them in a file
-        if (conf_get('logPath', 'grace', '') != '' && $who != 'a')
+        // Add the message to the debug pool if you want me to store them in a file
+        if (conf_get('logPath', 'grace', '') != '' && $who != 'a') {
             $grace_logMsgs[] = $msg;
+        }
     }
 }
 
@@ -71,24 +73,22 @@ function grace_storeLog()
 {
     global $grace_logMsgs;
 
-    # Add the last message
-    grace_debug("Finished! Memory used: Mb" . (memory_get_peak_usage() / 1000000) . "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+    // Add the last message
+    grace_debug('Finished! Memory used: Mb'.(memory_get_peak_usage() / 1000000).'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
 
-    # Do I have a place to store them?
+    // Do I have a place to store them?
     $fileName = conf_get('logPath', 'grace', '');
 
-    if ($fileName != '')
-    {
-        # Create a new file every hour
-        $fileName = $fileName . "wirez_" . date('y_m_d_h', time()) . ".txt";
+    if ($fileName != '') {
+        // Create a new file every hour
+        $fileName = $fileName.'wirez_'.date('y_m_d_h', time()).'.txt';
 
-        # Merge arrays to make them readable
-        $grace_logMsgs = implode("\n", $grace_logMsgs) . "\n";
+        // Merge arrays to make them readable
+        $grace_logMsgs = implode("\n", $grace_logMsgs)."\n";
 
-        //Open a connection
+        // Open a connection
         $fp = fopen($fileName, 'a');
-        if ($fp)
-        {
+        if ($fp) {
             fwrite($fp, $grace_logMsgs);
             fclose($fp);
         }
@@ -100,8 +100,9 @@ function grace_storeLog()
  */
 function grace_debug($msg)
 {
-    if (GRACE_PRINT_DEBUG == true)
+    if (GRACE_PRINT_DEBUG == true) {
         _grace_talk($msg, 'd');
+    }
 }
 
 /**
@@ -109,8 +110,9 @@ function grace_debug($msg)
  */
 function grace_info($msg)
 {
-    if (GRACE_PRINT_DEBUG == true)
+    if (GRACE_PRINT_DEBUG == true) {
         _grace_talk($msg, 'i');
+    }
 }
 
 /**
@@ -118,8 +120,9 @@ function grace_info($msg)
  */
 function grace_error($msg)
 {
-    if (GRACE_PRINT_ERROR == true)
+    if (GRACE_PRINT_ERROR == true) {
         _grace_talk($msg, 'e');
+    }
 }
 
 /**
@@ -128,8 +131,9 @@ function grace_error($msg)
  */
 function grace_absurd($msg)
 {
-    if (GRACE_PRINT_ABSURD == true)
+    if (GRACE_PRINT_ABSURD == true) {
         _grace_talk($msg, 'a');
+    }
 }
 
 /**
@@ -139,21 +143,22 @@ function grace_absurd($msg)
 function lestatz_browserInfo($agent = null)
 {
     // Declare known browsers to look for
-    $known = array('msie', 'firefox', 'safari', 'webkit', 'opera', 'netscape', 'konqueror', 'gecko');
+    $known = ['msie', 'firefox', 'safari', 'webkit', 'opera', 'netscape', 'konqueror', 'gecko'];
 
-    // Clean up agent and build regex that matches phrases for known browsers (e.g. "Firefox/2.0" or "MSIE 6.0" (This only matches the 
+    // Clean up agent and build regex that matches phrases for known browsers (e.g. "Firefox/2.0" or "MSIE 6.0" (This only matches the
     //	major and minor version numbers.  E.g. "2.0.0.6" is parsed as simply "2.0"
     $agent = strtolower($agent ? $agent : $_SERVER['HTTP_USER_AGENT']);
-    $pattern = '#(?<browser>' . join('|', $known) . ')[/ ]+(?<version>[0-9]+(?:\.[0-9]+)?)#';
+    $pattern = '#(?<browser>'.implode('|', $known).')[/ ]+(?<version>[0-9]+(?:\.[0-9]+)?)#';
 
     // Find all phrases (or return empty array if none found)
-    if (!preg_match_all($pattern, $agent, $matches))
-        return array();
+    if (! preg_match_all($pattern, $agent, $matches)) {
+        return [];
+    }
 
     // Since some UAs have more than one phrase	(e.g Firefox has a Gecko phrase, Opera 7,8
     //  have a MSIE phrase), use the last one found (the right-most one in the UA).
     //  That's usually the most correct.
     $i = count($matches['browser']) - 1;
 
-    return array($matches['browser'][$i] => $matches['version'][$i]);
+    return [$matches['browser'][$i] => $matches['version'][$i]];
 }

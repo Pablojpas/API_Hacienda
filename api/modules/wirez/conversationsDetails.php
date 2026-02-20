@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -18,9 +19,9 @@
 
 function wirez_conversationsGetDetails()
 {
-    # @todo confirm that the user can see this conversation
-    # I will hold the details
-    $details = array();
+    // @todo confirm that the user can see this conversation
+    // I will hold the details
+    $details = [];
 
     $q = sprintf("
         SELECT c.*, 
@@ -34,10 +35,10 @@ function wirez_conversationsGetDetails()
 
     $r = db_query($q);
 
-    if ($r != ERROR_DB_NO_RESULTS_FOUND)
+    if ($r != ERROR_DB_NO_RESULTS_FOUND) {
         $details = $r;
+    }
 
     return $details;
 
 }
-

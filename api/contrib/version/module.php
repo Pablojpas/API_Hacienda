@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -29,14 +30,14 @@ function version_bootMeUp()
  */
 function version_init()
 {
-    $paths = array(
-        array(
-            'r'             => 'version',
-            'action'        => 'version_API',
-            'access'        => 'users_openAccess',
-            'file'          => 'version.php'
-        )
-    );
+    $paths = [
+        [
+            'r' => 'version',
+            'action' => 'version_API',
+            'access' => 'users_openAccess',
+            'file' => 'version.php',
+        ],
+    ];
 
     return $paths;
 }

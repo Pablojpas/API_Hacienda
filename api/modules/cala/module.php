@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -16,12 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- *
- */
 function cala_bootMeUp()
 {
-    grace_info("Cala was booted...");
+    grace_info('Cala was booted...');
 }
 
 /**
@@ -29,36 +27,36 @@ function cala_bootMeUp()
  */
 function cala_init()
 {
-    grace_debug("Cala is in the house!");
+    grace_debug('Cala is in the house!');
 
-    $paths = array(
-        array(
-            'r'             => 'cala_core',
-            'action'        => 'cala_core',
-            'access'        => 'users_openAccess',
-            'params'        => array(
-                array("key" => "iam",           "def" => "",            "req" => true, "cli" => "i"),
-                array("key" => "sessionKey",    "def" => "",            "req" => true, 'cli' => 's'),
-                array("key" => "replyType",     "def" => "json",        "req" => true, 'cli' => 't'),
-                array("key" => "w",             "def" => "cala",        "req" => true, "cli" => "w"),
-                array("key" => "r",             "def" => "cala_empty",  "req" => true, "cli" => "r")
-            ),
-        ),
-        array(
-            'r'         => 'cala_default',
-            'action'    => 'cala_default',
-            'access'    => 'users_openAccess',
-        ),
-        # This is an open access call, but you will need a special key to use it
-        array(
-            'r'         => 'cala_test_install',
-            'action'    => 'cala_testInstall',
-            'access'    => 'users_openAccess',
-            'params'    => array(
-                    array("key" => "cronKey", "def" => "", "req" => false, "cli" => "c")
-            ))
+    $paths = [
+        [
+            'r' => 'cala_core',
+            'action' => 'cala_core',
+            'access' => 'users_openAccess',
+            'params' => [
+                ['key' => 'iam',           'def' => '',            'req' => true, 'cli' => 'i'],
+                ['key' => 'sessionKey',    'def' => '',            'req' => true, 'cli' => 's'],
+                ['key' => 'replyType',     'def' => 'json',        'req' => true, 'cli' => 't'],
+                ['key' => 'w',             'def' => 'cala',        'req' => true, 'cli' => 'w'],
+                ['key' => 'r',             'def' => 'cala_empty',  'req' => true, 'cli' => 'r'],
+            ],
+        ],
+        [
+            'r' => 'cala_default',
+            'action' => 'cala_default',
+            'access' => 'users_openAccess',
+        ],
+        // This is an open access call, but you will need a special key to use it
+        [
+            'r' => 'cala_test_install',
+            'action' => 'cala_testInstall',
+            'access' => 'users_openAccess',
+            'params' => [
+                ['key' => 'cronKey', 'def' => '', 'req' => false, 'cli' => 'c'],
+            ]],
 
-    );
+    ];
 
     return $paths;
 
@@ -69,7 +67,7 @@ function cala_init()
  */
 function cala_helloWorld()
 {
-    return "Hello World from Cala :)";
+    return 'Hello World from Cala :)';
 }
 
 /**
@@ -85,97 +83,96 @@ function cala_core()
  */
 function cala_testInstall()
 {
-    grace_debug("Running install tests");
+    grace_debug('Running install tests');
 
-    $bl = "<br/>";
+    $bl = '<br/>';
 
-    $output  = "<h1>Cala Installation check proccess</h1>";
+    $output = '<h1>Cala Installation check proccess</h1>';
     $output .= "This is highly advanced installation check, please read carefully any errors found and correct them before using Cala. $bl $bl";
 
-    # All tests
-    $allTests       = array();
-    $allGoodMsg     = "All good :) $bl ";
-    $allNotGoodMsg  = "Errors found :( $bl ";
+    // All tests
+    $allTests = [];
+    $allGoodMsg = "All good :) $bl ";
+    $allNotGoodMsg = "Errors found :( $bl ";
 
-    # Lets run the tests
+    // Lets run the tests
 
-    # Core installation
-    $allTests['coreInstall'] = array(
-        'name'      => 'Core Installation',
-        'comment'   => "Your core installation is in: ". conf_get("coreInstall", "modules", "/")
-    );
+    // Core installation
+    $allTests['coreInstall'] = [
+        'name' => 'Core Installation',
+        'comment' => 'Your core installation is in: '.conf_get('coreInstall', 'modules', '/'),
+    ];
 
-    # Php Version
-    if (version_compare(PHP_VERSION, '5.3.0') >= 0)
+    // Php Version
+    if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
         $phpVersion = true;
-    else
+    } else {
         $phpVersion = false;
+    }
 
-    $allTests['phpVersion'] = array(
-        'name'      => 'PHP Version',
-        'comment'   => $phpVersion === true ? "I am at least PHP version 5.3.0, my version: " . PHP_VERSION : "You need at least PHP version 5.3.0"
-    );
+    $allTests['phpVersion'] = [
+        'name' => 'PHP Version',
+        'comment' => $phpVersion === true ? 'I am at least PHP version 5.3.0, my version: '.PHP_VERSION : 'You need at least PHP version 5.3.0',
+    ];
 
-    # Database connection
+    // Database connection
     $dbConn = db_allGood();
-    $allTests['dbConn'] = array(
-        'name'      => 'Database connection',
-        'comment'   => $dbConn === true ? "All good" : $dbConn
-    );
+    $allTests['dbConn'] = [
+        'name' => 'Database connection',
+        'comment' => $dbConn === true ? 'All good' : $dbConn,
+    ];
 
-    # Files path
+    // Files path
     $filesPath = conf_get('basePath', 'files', '/');
     $filesGood = is_writable($filesPath);
-    $allTests['filesGood'] = array(
-        'name'      => 'Files storage',
-        'comment'   => ($filesGood === true ? $allGoodMsg : $allNotGoodMsg . "Your files storage was not found or the path is not accesible by me: ") . $filesPath
-    );
+    $allTests['filesGood'] = [
+        'name' => 'Files storage',
+        'comment' => ($filesGood === true ? $allGoodMsg : $allNotGoodMsg.'Your files storage was not found or the path is not accesible by me: ').$filesPath,
+    ];
 
-    //$filesPermsGood = is_writable($filesPath);
+    // $filesPermsGood = is_writable($filesPath);
     $filesPerms = @substr(sprintf('%o', fileperms($filesPath)), -4);
     $filesPermsGood = $filesPerms == '0777';
-    $allTests['filesPermsGood'] = array(
-        'name'      => 'Files storage permissions',
-        'comment'   => ($filesPermsGood == false ? $allGoodMsg : $allNotGoodMsg) . 
+    $allTests['filesPermsGood'] = [
+        'name' => 'Files storage permissions',
+        'comment' => ($filesPermsGood == false ? $allGoodMsg : $allNotGoodMsg).
         sprintf("Remember to put your files in a NON WEB ACCESSIBLE path and to secure its permissions,
         it is best if they are only writable/redable by the web process which is usually www-root. Current perms are '%s'
         $bl They should be: 0644?
         $bl Are they secure? %s",
-        $filesPerms, ($filesPermsGood == false ? $allGoodMsg : "They don't look like it"))
-    );
+            $filesPerms, ($filesPermsGood == false ? $allGoodMsg : "They don't look like it")),
+    ];
 
-    # Contrib modules
+    // Contrib modules
     $contribPath = conf_get('contribPath', 'modules', '/');
     $contribGood = is_dir($contribPath);
-    $allTests['contribGood'] = array(
-        'name'      => 'Contributed modules',
-        'comment'   => ($contribGood === true ? $allGoodMsg : $allNotGoodMsg . "Your contrib modules where not found or the path is not accessible: ") . $contribPath
-    );
+    $allTests['contribGood'] = [
+        'name' => 'Contributed modules',
+        'comment' => ($contribGood === true ? $allGoodMsg : $allNotGoodMsg.'Your contrib modules where not found or the path is not accessible: ').$contribPath,
+    ];
 
-    # Resources
+    // Resources
     $resourcesPath = conf_get('resourcesPath', 'core', '/');
     $resourcesGood = is_dir($resourcesPath);
-    $allTests['resourcesGood'] = array(
-        'name'      => 'Resources path',
-        'comment'   => ($resourcesGood === true ? $allGoodMsg : $allNotGoodMsg . "Your resources path was not found or the path is not accessible: ") . $resourcesPath
-    );
+    $allTests['resourcesGood'] = [
+        'name' => 'Resources path',
+        'comment' => ($resourcesGood === true ? $allGoodMsg : $allNotGoodMsg.'Your resources path was not found or the path is not accessible: ').$resourcesPath,
+    ];
 
-    # Cron token
-    $cronToken      = conf_get('cronToken', 'cron', 'ItIsGoodIfThisIsBigAndHasW3irDLeeT3rsAnd$ymb0lz.IniT') == 'ItIsGoodIfThisIsBigAndHasW3irDLeeT3rsAnd$ymb0lz.IniT';
-    $contribGood    = is_dir($contribPath);
-    $allTests['cronToken'] = array(
-        'name'      => 'Security Token',
-        'comment'   => ($cronToken !== true ? $allGoodMsg : $allNotGoodMsg . "You really need to change your token! ")
-    );
+    // Cron token
+    $cronToken = conf_get('cronToken', 'cron', 'ItIsGoodIfThisIsBigAndHasW3irDLeeT3rsAnd$ymb0lz.IniT') == 'ItIsGoodIfThisIsBigAndHasW3irDLeeT3rsAnd$ymb0lz.IniT';
+    $contribGood = is_dir($contribPath);
+    $allTests['cronToken'] = [
+        'name' => 'Security Token',
+        'comment' => ($cronToken !== true ? $allGoodMsg : $allNotGoodMsg.'You really need to change your token! '),
+    ];
 
-    foreach ($allTests as $test => $t)
-    {
+    foreach ($allTests as $test => $t) {
         $output .= sprintf("<strong>Name:</strong> %s $bl Result: %s $bl $bl", $t['name'], $t['comment']);
     }
 
     $output .= "-------------------------------------------------- $bl";
-    $output .= "Please correct any errors found and go on with it!";
+    $output .= 'Please correct any errors found and go on with it!';
 
     return $output;
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -27,10 +28,11 @@ function conf_get($what, $whom, $def = false)
 {
     global $config;
 
-    if (isset($config[$whom][$what]))
+    if (isset($config[$whom][$what])) {
         return $config[$whom][$what];
-    else
+    } else {
         return $def;
+    }
 }
 
 /**
@@ -40,10 +42,11 @@ function conf_set($what, $whom, $val = false, $override = false)
 {
     global $config;
 
-    if (isset($config[$whom][$what]) && $override)
+    if (isset($config[$whom][$what]) && $override) {
         $config[$whom][$what] = $val;
-    else
+    } else {
         $config[$whom][$what] = $val;
+    }
 
     return $config[$whom][$what];
 }
@@ -51,5 +54,6 @@ function conf_set($what, $whom, $val = false, $override = false)
 function conf_getAll()
 {
     global $config;
+
     return $config;
 }

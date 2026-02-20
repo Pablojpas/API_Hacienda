@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -18,11 +19,10 @@
 
 function encode()
 {
-    modules_loader("files");
-    $str = file_get_contents(filesGetUrl(params_get("downloadCode")));
+    modules_loader('files');
+    $str = file_get_contents(filesGetUrl(params_get('downloadCode')));
     grace_debug($str);
     $result = base64_encode($str);
-    return $result;	
-}
 
-?>
+    return $result;
+}

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -16,11 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 // Recibe un numero de cedula y le hace concatenacion a la izquierda respetando el largo de 12 digitos de Mh
 function generarCedula12Digitos($NumCedula)
 {
     return substr("0000000000{$NumCedula}", -12);
 }
-
-?>

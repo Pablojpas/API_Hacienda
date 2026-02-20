@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -18,6 +19,7 @@
 
 /**
  * Send emails
+ *
  * @params info an array with:
  * to=mail@example.com
  * replyTo=replyTo@example.com (I will use the default mail in config if not)
@@ -25,18 +27,17 @@
  * subject=the subject
  * message=the message
  */
-//## to use the funtion mail() in line 32 you need install sendmail in your unix server
-//Steps for Ubuntu linux
-//1) install sendmail
+// ## to use the funtion mail() in line 32 you need install sendmail in your unix server
+// Steps for Ubuntu linux
+// 1) install sendmail
 //  sudo apt-get install sendmail
-//2) config sendmail
+// 2) config sendmail
 //  sudo sendmailconfig
-//3) Edit hosts file
+// 3) Edit hosts file
 //  sudo nano /etc/hosts
 //      127.0.0.1 localhost su_dominio.com
-//4) Restart apache
+// 4) Restart apache
 //  sudo service apache2 restart
-
 
 function GenerateBody($message)
 {
@@ -314,7 +315,7 @@ function GenerateBody($message)
                                 <p style="margin: 0 0 10px;">Si usted no realizo la restauracion, por favor escribanos al correo de soporte y con gusto le ayudaremos a ubicar la IP de la maquina remota.</p>
                                 <p	style="margin: 0 0 10px;">Contraseña nueva:</p>
                                 <ul style="padding: 0; margin: 0; list-style-type: disc;">
-                                    <li style="margin: 0 0 0 20px;" class="list-item-last">' . $message . '</li>
+                                    <li style="margin: 0 0 0 20px;" class="list-item-last">'.$message.'</li>
                                 </ul>
                             </td>
                         </tr>
@@ -384,6 +385,7 @@ function GenerateBody($message)
 </body>
 </html>
 ';
+
     return $msg;
 }
 
@@ -391,47 +393,43 @@ function mailer_sendEmail($info)
 {
     $msg = GenerateBody($info['message']);
 
-    if (conf_get('type', 'mail') == 'smtp')
-    {
+    if (conf_get('type', 'mail') == 'smtp') {
         tools_useTool('phpmailer/vendor/autoload.php');
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-        try
-        {
+        try {
             $mail->isSMTP();
-            $mail->SMTPAuth     = true;
-            $mail->Host         = conf_get('host',        'mail');
-            $mail->Username     = conf_get('username',    'mail');
-            $mail->Password     = conf_get('password',    'mail');
-            $mail->SMTPSecure   = conf_get('secure',      'mail');
-            $mail->Port         = conf_get('port',        'mail');
+            $mail->SMTPAuth = true;
+            $mail->Host = conf_get('host', 'mail');
+            $mail->Username = conf_get('username', 'mail');
+            $mail->Password = conf_get('password', 'mail');
+            $mail->SMTPSecure = conf_get('secure', 'mail');
+            $mail->Port = conf_get('port', 'mail');
 
             $mail->setFrom(conf_get('address', 'mail'), conf_get('siteName', 'core'));
             $mail->addAddress($info['to']);
 
             $noreply = conf_get('noreply', 'mail');
-            if (trim($noreply) != '')
+            if (trim($noreply) != '') {
                 $mail->addReplyTo($noreply);
+            }
 
             $mail->isHTML();
-            $mail->Subject  = $info['subject'];
-            $mail->Body     = $msg;
-            $mail->CharSet  = 'UTF-8';
+            $mail->Subject = $info['subject'];
+            $mail->Body = $msg;
+            $mail->CharSet = 'UTF-8';
 
             return $mail->send();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             echo $mail->ErrorInfo;
         }
 
         return false;
-    }
-    else
-    {
-        $headers = sprintf("From: %s \r\n" .
-            "Reply-To: %s \r\n" .
+    } else {
+        $headers = sprintf("From: %s \r\n".
+            "Reply-To: %s \r\n".
             'X-Mailer: PHP/ %s', conf_get('defaultMail', 'core', 'info@crlibre.org'), $info['replyTo'] != '' ? $info['replyTo'] : conf_get('defaultMail', 'core', 'info@crlibre.org'), phpversion());
         $headers .= "\r\nContent-Type: text/html; charset=ISO-8859-1\r\n";
+
         return mail($info['to'], $info['subject'], $msg, $headers);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -18,23 +19,20 @@
 
 function version_API()
 {
-   $commit = exec('git describe --long --match init --abbrev=7');
-   $commit = trim($commit);
-   if (strlen($commit) == 17)
-   {
-       $commit = preg_replace("/init\-([0-9]+)\-g/", "", $commit);
-       if (strlen($commit) == 7)
+    $commit = exec('git describe --long --match init --abbrev=7');
+    $commit = trim($commit);
+    if (strlen($commit) == 17) {
+        $commit = preg_replace("/init\-([0-9]+)\-g/", '', $commit);
+        if (strlen($commit) == 7) {
             return "Version: {$commit}";
-   }
-   else if (file_exists(__DIR__ . '/VERSION'))
-   {
-       $commit  = file_get_contents(__DIR__ . '/VERSION');
-       $commit = trim($commit);
-       if (strlen($commit) == 7)
-           return "Version: {$commit}";
-   }
+        }
+    } elseif (file_exists(__DIR__.'/VERSION')) {
+        $commit = file_get_contents(__DIR__.'/VERSION');
+        $commit = trim($commit);
+        if (strlen($commit) == 7) {
+            return "Version: {$commit}";
+        }
+    }
 
-   return "No tiene soporte git.";
+    return 'No tiene soporte git.';
 }
-
-?>

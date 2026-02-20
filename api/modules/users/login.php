@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -21,8 +22,9 @@
  */
 function users_logMeOut()
 {
-    grace_debug("Log out");
+    grace_debug('Log out');
     users_destroySession();
     params_set('sessionKey', 'longGone');
+
     return 'good bye';
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -29,32 +30,32 @@ function clave_bootMeUp()
  */
 function clave_init()
 {
-    $paths = array(
-        array(
-            'r'             => 'clave',
-            'action'        => 'getClave',
-            'access'        => 'users_openAccess',
+    $paths = [
+        [
+            'r' => 'clave',
+            'action' => 'getClave',
+            'access' => 'users_openAccess',
             'access_params' => 'accessName',
-            'params'        => array(
-                array("key" => "tipoDocumento", "def" => "", "req" => true),
-                array("key" => "tipoCedula", "def" => "", "req" => true),
-                array("key" => "cedula", "def" => "", "req" => true),
-                array("key" => "codigoPais", "def" => "", "req" => false),
-                array("key" => "consecutivo", "def" => "", "req" => true),
-                array("key" => "situacion", "def" => "", "req" => true),
-                array("key" => "terminal", "def" => "", "req" => false),
-                array("key" => "sucursal", "def" => "", "req" => false),
-                array("key" => "codigoSeguridad", "def" => "", "req" => true)
-            ),
-            'file'          => 'clave.php'
-        )
-    );
+            'params' => [
+                ['key' => 'tipoDocumento', 'def' => '', 'req' => true],
+                ['key' => 'tipoCedula', 'def' => '', 'req' => true],
+                ['key' => 'cedula', 'def' => '', 'req' => true],
+                ['key' => 'codigoPais', 'def' => '', 'req' => false],
+                ['key' => 'consecutivo', 'def' => '', 'req' => true],
+                ['key' => 'situacion', 'def' => '', 'req' => true],
+                ['key' => 'terminal', 'def' => '', 'req' => false],
+                ['key' => 'sucursal', 'def' => '', 'req' => false],
+                ['key' => 'codigoSeguridad', 'def' => '', 'req' => true],
+            ],
+            'file' => 'clave.php',
+        ],
+    ];
 
     return $paths;
 }
 
 /* * *********************************************** */
-//In the access you can use users_openAccess if you want anyone can use the function
+// In the access you can use users_openAccess if you want anyone can use the function
 // or users_loggedIn if the user must be logged in
 /* * *********************************************** */
 
@@ -63,19 +64,19 @@ function clave_init()
  */
 function MODULENAME_access()
 {
-    $perms = array(
-        array(
-            # A human readable name
-            'name'          => 'Do something with this module',
-            # Something to remember what it is for
-            'description'   => 'What can be achieved with this permission',
-            # Internal machine name, no spaces, no funny symbols, same rules as a variable
-            # Use yourmodule_ prefix
-            'code'          => 'mymodule_access_one',
-            # Default value in case it is not set
-            'def'           => false, //Or true, you decide
-        ),
-    );
+    $perms = [
+        [
+            // A human readable name
+            'name' => 'Do something with this module',
+            // Something to remember what it is for
+            'description' => 'What can be achieved with this permission',
+            // Internal machine name, no spaces, no funny symbols, same rules as a variable
+            // Use yourmodule_ prefix
+            'code' => 'mymodule_access_one',
+            // Default value in case it is not set
+            'def' => false, // Or true, you decide
+        ],
+    ];
 }
 
 /**@}*/

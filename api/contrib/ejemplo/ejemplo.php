@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -18,12 +19,10 @@
 
 function module_hola()
 {
-    return "hola :)";
+    return 'hola :)';
 }
 
 function unUsuario()
 {
-    return params_get("nombre") . ", " . params_get("apellido");
+    return params_get('nombre').', '.params_get('apellido');
 }
-
-?>

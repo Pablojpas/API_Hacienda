@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -29,39 +30,33 @@ function firmarXML_bootMeUp()
  */
 function firmarXML_init()
 {
-    $paths = array(
-        array(
-            'r'             => 'firmar',
-            'action'        => 'firmar',
-            'access'        => 'users_openAccess',
+    $paths = [
+        [
+            'r' => 'firmar',
+            'action' => 'firmar',
+            'access' => 'users_openAccess',
             'access_params' => 'accessName',
-            'params' => array(
-                array("key" => "p12Url",    "def" => "", "req" => true),
-                array("key" => "pinP12",    "def" => "", "req" => true),
-                array("key" => "inXml",     "def" => "", "req" => false),
-            ),
-            'file'          => 'firmar.php'
-        )
-    );
+            'params' => [
+                ['key' => 'p12Url',    'def' => '', 'req' => true],
+                ['key' => 'pinP12',    'def' => '', 'req' => true],
+                ['key' => 'inXml',     'def' => '', 'req' => false],
+            ],
+            'file' => 'firmar.php',
+        ],
+    ];
 
     return $paths;
 }
 
-
 /**************************************************/
-//In the access you can use users_openAccess if you want anyone can use the function
+// In the access you can use users_openAccess if you want anyone can use the function
 // or users_loggedIn if the user must be logged in
 /**************************************************/
-
-
 
 /**
  * Get the perms for this module
  */
-function firmarXML_access()
-{
-
-}
+function firmarXML_access() {}
 
 /**@}*/
 /** @}*/

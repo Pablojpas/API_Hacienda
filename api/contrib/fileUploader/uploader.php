@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2017-2025 CRLibre <https://crlibre.org>
  *
@@ -18,19 +19,21 @@
 
 function doTest()
 {
-    return "Test :)";
+    return 'Test :)';
 }
 
 function uploadCert()
 {
-    modules_loader("files");
-    $dets = files_upload("hacienda", false, "p12");
+    modules_loader('files');
+    $dets = files_upload('hacienda', false, 'p12');
+
     return $dets;
 }
 
 function uploadXml()
 {
-    modules_loader("files");
-    $dets = files_upload("hacienda", false, "xml");
+    modules_loader('files');
+    $dets = files_upload('hacienda', false, 'xml');
+
     return $dets;
 }
