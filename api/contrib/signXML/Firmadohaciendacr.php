@@ -33,6 +33,8 @@ class Firmadocr
         '05' => 'mensajeReceptor',
         '06' => 'mensajeReceptor',
         '07' => 'mensajeReceptor',
+        '08' => 'facturaElectronicaCompra',
+        '09' => 'facturaElectronicaExportacion',
     ];
 
     private static $POLITICA_FIRMA = [
@@ -336,6 +338,12 @@ class Firmadocr
         } elseif ($this->tipoDoc == '05' || $this->tipoDoc == '06' || $this->tipoDoc == '07') {
             $buscar = '</MensajeReceptor>';
             $remplazar = $sig.'</MensajeReceptor>';
+        } elseif ($this->tipoDoc == '08') {
+            $buscar = '</FacturaElectronicaCompra>';
+            $remplazar = $sig.'</FacturaElectronicaCompra>';
+        } elseif ($this->tipoDoc == '09') {
+            $buscar = '</FacturaElectronicaExportacion>';
+            $remplazar = $sig.'</FacturaElectronicaExportacion>';
         }
 
         $pos = strrpos($xml, $buscar);
