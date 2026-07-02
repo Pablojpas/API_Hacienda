@@ -37,7 +37,7 @@ $config['db']['host'] = "crlibre-db";
 # Crypto Keys
 #
 ##############################################################################
-$config['crypto']['key'] = "{cryptoKey}";
+$config['crypto']['key'] = "FNf9pHxyMFvalaeJeKdDLOdCeQVlDrAK4IXgmIW0zvE=";
 ##############################################################################
 #
 # print alerts

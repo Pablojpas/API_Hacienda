@@ -7,7 +7,7 @@ setUpCryptoKey() {
     SETTINGS_FILE_PATH=/var/www/html/settings.php
     SETTINGS_TEMPLATE_FILE_PATH=/var/www/html/settings_original_docker.php.dist
     LOCALHOSTNAME=localhost
-    CRLIBRE_API_HACIENDA_CRYPTO_KEY="non-set"
+    CRLIBRE_API_HACIENDA_CRYPTO_KEY="${CRLIBRE_API_HACIENDA_CRYPTO_KEY:-non-set}"
 
     if [ -e "${SETTINGS_FILE_PATH}" ]; then
         echo "[$(date -u +%d-%m-%Y_%H-%S-%N)][${0}] *** Found ${SETTINGS_FILE_PATH}, checking if cryptoKey exists ***"
@@ -43,16 +43,20 @@ setUpCryptoKey() {
     done
     echo "[$(date -u +%d-%m-%Y_%H-%S-%N)][${0}] Apache is Up"
 
-    # Generate cryptoKey if it's missing
-    echo "[$(date -u +%d-%m-%Y_%H-%S-%N)][${0}] Trying to retrieve CryptoKey"
-    CRLIBRE_API_HACIENDA_CRYPTO_KEY_JSON=$(curl -s "http://${LOCALHOSTNAME}:80/api.php?w=crypto&r=makeKey" -o /var/www/html/cryptoKey.json)
-    echo "[$(date -u +%d-%m-%Y_%H-%S-%N)][${0}] Retrieved JSON: ${CRLIBRE_API_HACIENDA_CRYPTO_KEY_JSON}"
-    
-    CRLIBRE_API_HACIENDA_CRYPTO_KEY=$(cat /var/www/html/cryptoKey.json | awk -F'"' '/"resp"/ {print $4}')
+    if [ "${CRLIBRE_API_HACIENDA_CRYPTO_KEY}" = "non-set" ] || [ -z "${CRLIBRE_API_HACIENDA_CRYPTO_KEY}" ]; then
+        # Generate cryptoKey if it's missing
+        echo "[$(date -u +%d-%m-%Y_%H-%S-%N)][${0}] Trying to retrieve CryptoKey"
+        CRLIBRE_API_HACIENDA_CRYPTO_KEY_JSON=$(curl -s "http://${LOCALHOSTNAME}:80/api.php?w=crypto&r=makeKey" -o /var/www/html/cryptoKey.json)
+        echo "[$(date -u +%d-%m-%Y_%H-%S-%N)][${0}] Retrieved JSON: ${CRLIBRE_API_HACIENDA_CRYPTO_KEY_JSON}"
+        
+        CRLIBRE_API_HACIENDA_CRYPTO_KEY=$(cat /var/www/html/cryptoKey.json | grep -o '"resp":"[^"]*' | cut -d'"' -f4)
+    fi
     echo "[$(date -u +%d-%m-%Y_%H-%S-%N)][${0}] CryptoKey set to: ${CRLIBRE_API_HACIENDA_CRYPTO_KEY}"
 
-    # Replace cryptoKey in settings.php
-    sed -i "s/{cryptoKey}/${CRLIBRE_API_HACIENDA_CRYPTO_KEY}/g" "${SETTINGS_FILE_PATH}"
+    # Replace cryptoKey in settings.php without renaming the mounted file
+    sed "s/{cryptoKey}/${CRLIBRE_API_HACIENDA_CRYPTO_KEY}/g" "${SETTINGS_FILE_PATH}" > "${SETTINGS_FILE_PATH}.tmp"
+    cat "${SETTINGS_FILE_PATH}.tmp" > "${SETTINGS_FILE_PATH}"
+    rm "${SETTINGS_FILE_PATH}.tmp"
     
     echo "[$(date -u +%d-%m-%Y_%H-%S-%N)][${0}] Created ${SETTINGS_FILE_PATH} with CryptoKey ***"
 }
